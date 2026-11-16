@@ -1,4 +1,4 @@
 package org.ldv.chatbot.model.dao
 
-class ModeleIADAO {
+interface ModeleIADAO {
 }

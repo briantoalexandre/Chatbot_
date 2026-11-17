@@ -15,5 +15,11 @@ class Message (
     @Column
     var dateCreation: LocalDateTime,
     @Column
-    var typeMessage: TypeMessage, ) {
+    var typeMessage: TypeMessage,
+    @ManyToOne
+    @JoinColumn(name="id_conversation")
+    var conversation: Conversation? = null,
+
+) {
+
 }

@@ -14,8 +14,11 @@ class Conversation(
     @Column
     var dateCreation: LocalDateTime,
     @Column
-    var dateModification: LocalDateTime,
+    var dateDerniereModification: LocalDateTime = LocalDateTime.now(),
     @Column
-    var estArchivee: Boolean,
+    var estArchivee: Boolean = false,
+    @ManyToOne
+    @JoinColumn(name = "id_modele")
+    var modeleIA : ModeleIA? = null
 ) {
 }

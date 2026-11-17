@@ -12,6 +12,8 @@ class Message (
     var id: Long? = null,
     @Column(columnDefinition = "TEXT", nullable = false)
     var contenu: String,
+    @Column
     var dateCreation: LocalDateTime,
+    @Column
     var typeMessage: TypeMessage, ) {
 }

@@ -15,6 +15,7 @@ class Conversation(
     var dateCreation: LocalDateTime,
     @Column
     var dateModification: LocalDateTime,
-    var estArchivee: Boolean
+    @Column
+    var estArchivee: Boolean,
 ) {
 }

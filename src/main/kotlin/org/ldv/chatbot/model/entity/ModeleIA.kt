@@ -15,6 +15,9 @@ class ModeleIA(
     @Column
     var description: String,
     @Column
-    var cheminLogo: String
+    var cheminLogo: String,
+    @ManyToOne
+    @JoinColumn(name = "id_fournisseur")
+    var fourniseurIA: FournisseurIA
 ) {
 }

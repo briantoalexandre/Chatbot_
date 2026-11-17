@@ -16,6 +16,6 @@ class FournisseurIA(
     var cheminLogo: String,
     @OneToMany
     @JoinColumn(name = "id_modele")
-    var modeleIA : MutableList<ModeleIA>? = null
+    var modelesIA : MutableList<ModeleIA>? = null
 ) {
 }

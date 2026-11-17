@@ -21,6 +21,6 @@ class ModeleIA(
     var fourniseurIA: FournisseurIA,
     @OneToMany
     @JoinColumn(name = "id_conversation")
-    var conversation: MutableList<Conversation>? = null
+    var conversations: MutableList<Conversation> = mutableListOf()
 ) {
 }

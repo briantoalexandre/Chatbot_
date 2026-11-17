@@ -19,6 +19,9 @@ class Conversation(
     var estArchivee: Boolean = false,
     @ManyToOne
     @JoinColumn(name = "id_modele")
-    var modeleIA : ModeleIA? = null
+    var modeleIA : ModeleIA? = null,
+    @OneToMany
+    @JoinColumn(name = "id_message")
+    var messages: MutableList<Message> = mutableListOf()
 ) {
 }

@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class ChatBotController {
-    @GetMapping("/")
-    fun exemple(): String {
-        return "exemple"
-    }
+//    @GetMapping("/exemple")
+//    fun exemple(): String {
+//        return "example"
+//    }
 }

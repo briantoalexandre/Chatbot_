@@ -17,7 +17,7 @@ class Message (
     @Column
     var typeMessage: TypeMessage,
     @ManyToOne
-    @JoinColumn(name="id_conversation")
+    @JoinColumn(name="id_conversation", nullable = true)
     var conversation: Conversation? = null,
 
 ) {

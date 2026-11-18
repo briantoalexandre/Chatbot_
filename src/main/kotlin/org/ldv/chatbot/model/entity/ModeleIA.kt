@@ -17,8 +17,8 @@ class ModeleIA(
     @Column
     var cheminLogo: String,
     @ManyToOne
-    @JoinColumn(name = "id_fournisseur")
-    var fourniseurIA: FournisseurIA,
+    @JoinColumn(name = "id_fournisseur", nullable = true)
+    var fourniseurIA: FournisseurIA? = null,
     @OneToMany
     @JoinColumn(name = "id_conversation")
     var conversations: MutableList<Conversation> = mutableListOf()

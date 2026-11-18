@@ -18,7 +18,7 @@ class Conversation(
     @Column
     var estArchivee: Boolean = false,
     @ManyToOne
-    @JoinColumn(name = "id_modele")
+    @JoinColumn(name = "id_modele", nullable = true)
     var modeleIA : ModeleIA? = null,
     @OneToMany
     @JoinColumn(name = "id_message")

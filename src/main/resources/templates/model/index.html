@@ -1,0 +1,4 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Modèles d’IA', 'models')}">
+<section th:fragment="content"><div class="heading"><div><span class="eyebrow">ADMINISTRATION</span><h1>Modèles d’IA</h1><p>Gérez les modèles disponibles dans votre espace.</p></div></div><div class="heading"><a class="btn primary" th:href="@{/modeles/nouveau}">＋ Nouveau modèle</a></div><div class="card table-wrap"><table><thead><tr><th>Modèle</th><th>Description</th><th>Fournisseur</th></tr></thead><tbody><tr th:each="modele : ${modeles}"><td><a th:href="@{/modeles/{id}(id=${modele.id})}" th:text="${modele.nom}">Nom</a></td><td th:text="${modele.description}">Description</td><td th:text="${modele.fourniseurIA != null ? modele.fourniseurIA.nom : '—'}">Fournisseur</td></tr></tbody></table><p th:if="${#lists.isEmpty(modeles)}">Aucun modèle n’est configuré.</p></div></section>
+</html>

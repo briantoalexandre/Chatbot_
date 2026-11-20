@@ -1,0 +1,4 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Services', 'services')}">
+<section th:fragment="content"><div class="heading"><div><span class="eyebrow">OFFRES AIHUB</span><h1>Services</h1><p>Découvrez les offres et services.</p></div></div><div class="card"><h2>Nos services</h2><p>Choisissez une offre adaptée à vos besoins.</p><a class="btn outline" th:href="@{/services/free}">Offre gratuite</a> <a class="btn primary" th:href="@{/services/premium}">Offre Premium</a></div></section>
+</html>

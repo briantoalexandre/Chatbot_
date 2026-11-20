@@ -1,37 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="fr"
-      th:fragment="base(content, titre, activePage)">
-
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${titre} ?: 'app'">app</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" th:href="@{/img/LOGO.png}">
-
-    <!-- Bootstrap + Bootstrap Icons -->
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/vendor/bootstrap-icons/bootstrap-icons.min.css}">
-
-    <!-- Feuille de style de l'application -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-</head>
-
-<body class="d-flex flex-column min-vh-100">
-<!-- header -->
-<header th:replace="~{fragments/header :: header(${activePage})}"></header>
-
-<!-- Contenu principal -->
-<main class="container flex-grow-1">
-    <!-- Contenu spécifique des pages -->
-    <div th:replace="${content}"></div>
-</main>
-
-<!-- Footer -->
-<footer th:replace="~{fragments/footer :: footer}"></footer>
-
-<!-- JS Bootstrap -->
-<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<!--<script th:src="@{/js/app.js}"></script>-->
-</body>
-</html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:fragment="base(content, title, activePage)">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title th:text="${title} + ' - Br\'ia\'nto'">Br'ia'nto</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div class="layout"><aside class="sidebar">
+<a class="brand" th:href="@{/}"><span class="brand-mark">✺</span> Br'ia'nto</a>
+<nav class="nav">
+<a th:href="@{/}" th:classappend="${activePage == 'chat'} ? ' active' : ''">⌂ Home / Chatbot</a>
+<a th:href="@{/a-propos}" th:classappend="${activePage == 'about'} ? ' active' : ''">À propos</a>
+<a th:href="@{/modeles}" th:classappend="${activePage == 'models'} ? ' active' : ''">Modèles IA</a>
+<div class="nav-group"><a th:href="@{/modeles}">Liste des modèles</a><a th:href="@{/modeles/nouveau}">Créer un modèle</a></div>
+<a th:href="@{/posts}" th:classappend="${activePage == 'posts'} ? ' active' : ''">Publications</a>
+<div class="nav-group"><a th:href="@{/posts/related}">Associées</a><a th:href="@{/posts/latest}">Récentes</a><a th:href="@{/posts/category}">Catégories</a></div>
+<a th:href="@{/services}" th:classappend="${activePage == 'services'} ? ' active' : ''">Services</a>
+<div class="nav-group"><a th:href="@{/services/free}">Gratuit</a><a th:href="@{/services/premium}">Premium</a><a th:href="@{/services/cases}">Cas d’usage</a></div>
+</nav><div class="sidebar-footer">Br'ia'nto · Votre assistant IA</div></aside>
+<main class="main"><header class="topbar"><div class="crumb">Br'ia'nto / <b th:text="${title}">Accueil</b></div></header>
+<div class="content"><div th:replace="${content}"></div></div></main></div></body></html>

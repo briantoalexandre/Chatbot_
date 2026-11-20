@@ -1,0 +1,4 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Publications', 'posts')}">
+<section th:fragment="content"><div class="heading"><div><span class="eyebrow">CONTENU</span><h1>Publications</h1><p>Retrouvez les contenus et ressources AIHub.</p></div></div><div class="card"><h2>Publications</h2><p>Les publications seront affichées ici.</p><a class="btn outline" th:href="@{/posts/latest}">Voir les dernières publications</a></div></section>
+</html>

@@ -1,6 +1,8 @@
+package org.ldv.chatbot.service
+
 import org.ldv.chatbot.dto.mistral.*
 import org.ldv.chatbot.model.entity.*
-import org.ldv.chatbot.service.*
+import org.ldv.chatbot.parser.MarkdownToHtmlConverter
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
@@ -34,11 +36,14 @@ class MistralService(
             .body(request)
             .retrieve()
             .body(MistralChatResponse::class.java)
+
         // Étape 4 : Récupération du texte de la réponse
         val choix = response?.choices?.firstOrNull()
         val reponse = choix?.message?.content
         if (reponse != null) {
-            return reponse
+            // Etape 5 : MarkDown en HTML
+            val HTMLreponse = MarkdownToHtmlConverter.convert(reponse) // Markdown to HTML
+            return HTMLreponse
         } else {
             return "Aucune réponse reçue de Mistral."
         }

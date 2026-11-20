@@ -20,8 +20,10 @@ class Conversation(
     @ManyToOne
     @JoinColumn(name = "id_modele", nullable = true)
     var modeleIA : ModeleIA? = null,
-    @OneToMany
-    @JoinColumn(name = "id_message")
+    @OneToMany(mappedBy = "conversation", cascade = [CascadeType.ALL])
     var messages: MutableList<Message> = mutableListOf()
+//    @OneToMany
+//    @JoinColumn(name = "id_message")
+//    var messages: MutableList<Message> = mutableListOf()
 ) {
 }

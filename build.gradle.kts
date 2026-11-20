@@ -33,6 +33,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.commonmark:commonmark:0.21.0") //CommonMark
+    //implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20230312.1") // OWASP Java html sanitizer
 }
 
 kotlin {

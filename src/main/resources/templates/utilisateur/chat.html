@@ -1,105 +1,66 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{base :: base(~{::content}, 'Chatbot-Page test', 'test')}">
-<head>
-    <title>Assistant IA</title>
-</head>
-<body>
-<main th:fragment="content" class="chat-page flex-grow-1 d-flex flex-column">
-    <!-- Zone des messages -->
-    <section class="flex-grow-1 overflow-auto p-4">
-        <!-- Aucune conversation sélectionnée -->
-        <div th:if="${conversation == null}"
-             class="text-center mt-5">
-            <h2>Comment puis-je vous aider ?</h2>
-            <p class="text-muted">
-                Choisissez un modèle IA et posez votre question.
-            </p>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Chatbot', 'chat')}">
+    <section th:fragment="content" class="chat-content">
+    <div class="heading">
+        <div>
+            <span class="eyebrow">VOTRE ASSISTANT IA</span>
+            <h1 th:text="${conversation != null ? conversation.titre : 'Bonjour !'}">Bonjour !</h1>
+            <p>Posez vos questions, explorez vos idées et créez avec l’IA.</p>
         </div>
-        <!-- Historique des messages -->
-        <div th:each="message : ${messages}"
-             class="mb-4">
-            <strong th:text="${message.typeMessage}">
-            </strong>
-            <div class="message mt-2 message-content"
-                 th:text="${message.contenu}">
-            </div>
-        </div>
-    </section>
-
-    <!-- Zone de saisie -->
-    <div class="border-top p-3">
-        <!-- Création d'une conversation -->
-        <form id="formChat"
-              th:if="${conversation == null}"
-              th:action="@{/conversations}"
-              method="post">
-            <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-end gap-2">
-                <div class="model-select-wrapper">
-                    <!-- Choix du modèle IA -->
-                    <select name="idModele"
-                            class="form-select model-select"
-                            required>
-                        <option value="" disabled selected>
-                            Choisir un modèle IA
-                        </option>
-                        <option th:each="modele : ${modeles}"
-                                th:value="${modele.id}"
-                                th:text="${modele.nom}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="flex-grow-1">
-                    <!-- Prompt -->
-                    <textarea name="prompt"
-                              class="form-control"
-                              rows="2"
-                              placeholder="Posez votre question..."
-                              required></textarea>
-                </div>
-                <div class="send-button-wrapper">
-                    <!-- Envoi -->
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Envoyer
-                    </button>
-                </div>
-            </div>
-        </form>
-        <!-- Conversation existante -->
-        <form th:if="${conversation != null}"
-              th:action="@{/conversations/{id}/messages(id=${conversation.id})}"
-              method="post">
-            <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-end gap-2">
-                <!-- Modèle utilisé -->
-                <div class="model-current d-flex align-items-center gap-2">
-                    <img th:src="@{${conversation.modeleIA.cheminLogo}}"
-                         alt="Logo du modèle"
-                         width="28"
-                         height="28">
-                    <span th:text="${conversation.modeleIA.nom}">
-                    </span>
-                </div>
-                <!-- Prompt -->
-                <div class="flex-grow-1">
-                 <textarea name="prompt"
-                           class="form-control"
-                           rows="2"
-                           placeholder="Écrivez votre message..."
-                           required></textarea>
-                </div>
-                <div class="send-button-wrapper">
-                    <!-- Envoi -->
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Envoyer
-                    </button>
-                </div>
-            </div>
-        </form>
     </div>
-</main>
-</body>
+    <div class="card chat-panel">
+        <div th:if="${conversation == null and (messages == null or #lists.isEmpty(messages))}" class="empty-chat">
+            <h2>Comment puis-je vous aider ?</h2>
+            <p>Choisissez un modèle IA et posez votre question.</p>
+        </div>
+        <div class="messages" th:each="message : ${messages}">
+            <div class="message">
+                <strong th:text="${message.typeMessage}">UTILISATEUR</strong>
+                <p class="message-content" th:utext="${message.contenu}">Contenu du message</p>
+            </div>
+        </div>
+        <form class="composer" th:if="${conversation == null}" th:action="@{/conversations}" method="post">
+            <select name="idModele" required>
+                <option value="" disabled selected>Choisir un modèle IA</option>
+                <option th:each="modele : ${modeles}" th:value="${modele.id}" th:text="${modele.nom}">Modèle</option>
+            </select>
+            <textarea name="prompt" rows="3" placeholder="Posez votre question..." required></textarea>
+            <button class="btn primary" type="submit">Envoyer</button>
+        </form>
+        <form class="composer" th:if="${conversation != null}" th:action="@{/conversations/{id}/messages(id=${conversation.id})}" method="post">
+            <textarea name="prompt" rows="3" placeholder="Écrivez votre message..." required></textarea>
+            <button class="btn primary" type="submit">Envoyer</button>
+        </form>
+        <aside class="conversation-history">
+
+            <a th:if="${conversation != null}"
+               th:href="@{/}"
+               class="btn primary new-chat">
+                + New Chat
+            </a>
+
+            <h3>Chat History</h3>
+
+            <div class="history-list">
+
+                <a th:each="item : ${conversations}"
+                   th:href="@{/conversations/{id}(id=${item.id})}"
+                   th:classappend="${conversation != null
+               and conversation.id == item.id} ? ' active' : ''"
+                   class="history-item">
+
+            <span th:text="${item.titre}">
+                Conversation title
+            </span>
+
+                </a>
+
+                <p th:if="${#lists.isEmpty(conversations)}">
+                    No conversations yet.
+                </p>
+
+            </div>
+        </aside>
+    </div>
+    </section>
 </html>

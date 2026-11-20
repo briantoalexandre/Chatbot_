@@ -537,7 +537,11 @@ td {
 .messages{display:flex;flex-direction:column;gap:12px}
 .message{padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:#fff}
 .message strong{color:var(--gold-dark);font-size:12px}
-.message-content{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}
+.message-content{
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  margin:8px 0 0;
+}
 .composer{display:grid;gap:12px;border-top:1px solid var(--border);padding-top:18px;margin-top:auto}
 .composer textarea{min-height:90px;resize:vertical}
 .composer select{max-width:360px}

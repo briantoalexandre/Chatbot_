@@ -16,7 +16,7 @@
         <div class="messages" th:each="message : ${messages}">
             <div class="message">
                 <strong th:text="${message.typeMessage}">UTILISATEUR</strong>
-                <p class="message-content" th:utext="${message.contenu}">Contenu du message</p>
+                <p class="message-content" th:classappend="${message.typeMessage.name() == 'ASSISTANT'} ? 'message-assistant' : ''"  th:utext="${message.contenu}">Contenu du message</p>
             </div>
         </div>
         <form class="composer" th:if="${conversation == null}" th:action="@{/conversations}" method="post">

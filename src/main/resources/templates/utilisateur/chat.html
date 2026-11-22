@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Chatbot', 'chat')}">
     <section th:fragment="content" class="chat-content">
+    <div class="chat-page" th:attr="data-lecture-auto=${lectureAuto == true}">
     <div class="heading">
         <div>
             <span class="eyebrow">VOTRE ASSISTANT IA</span>
@@ -14,9 +15,10 @@
             <p>Choisissez un modèle IA et posez votre question.</p>
         </div>
         <div class="messages" th:each="message : ${messages}">
-            <div class="message">
+            <div class="message"
+                 th:classappend="${message.typeMessage.name() == 'ASSISTANT'} ? ' message-assistant' : ''">
                 <strong th:text="${message.typeMessage}">UTILISATEUR</strong>
-                <p class="message-content" th:classappend="${message.typeMessage.name() == 'ASSISTANT'} ? 'message-assistant' : ''"  th:utext="${message.contenu}">Contenu du message</p>
+                <div class="message-content" th:utext="${message.contenu}">Contenu du message</div>
             </div>
         </div>
         <form class="composer" th:if="${conversation == null}" th:action="@{/conversations}" method="post">
@@ -61,6 +63,7 @@
 
             </div>
         </aside>
+    </div>
     </div>
     </section>
 </html>

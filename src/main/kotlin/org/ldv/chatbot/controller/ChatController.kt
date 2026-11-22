@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.LocalDateTime
 
 @Controller
@@ -41,7 +42,8 @@ class ChatController(
     @PostMapping("/conversations")
     fun creerConversation(
         @RequestParam prompt: String,
-        @RequestParam idModele: Long
+        @RequestParam idModele: Long,
+        redirectAttributes: RedirectAttributes
     ): String {
         val modele = modeleIADAO.findById(idModele)
             .orElseThrow {
@@ -66,6 +68,7 @@ class ChatController(
         )
         messageDAO.save(messageUtilisateur)
 
+        var reponseGeneree = false
         try {
             val iaService = iaServiceFactory.getService(modele)
             val reponse = iaService.envoyerPrompt(prompt, modele)
@@ -76,12 +79,18 @@ class ChatController(
                 conversation = conversationEnregistree
             )
             messageDAO.save(messageAssistant)
+            reponseGeneree = true
         } catch (e: Exception) {
-            println("Erreur lors de l’appel au modèle ${modele.nom} : ${e.message}")
+            // La conversation est conservée, mais aucune lecture ne sera demandée.
+            e.printStackTrace()
         }
 
         conversationEnregistree.dateDerniereModification = LocalDateTime.now()
         conversationDAO.save(conversationEnregistree)
+
+        if (reponseGeneree) {
+            redirectAttributes.addFlashAttribute("lectureAuto", true)
+        }
 
         return "redirect:/conversations/${conversationEnregistree.id}"
     }

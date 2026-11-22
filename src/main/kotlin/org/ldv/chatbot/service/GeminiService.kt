@@ -1,51 +1,95 @@
 package org.ldv.chatbot.service
 
-import org.ldv.chatbot.dto.gemini.*
-import org.ldv.chatbot.model.entity.*
+import org.ldv.chatbot.model.entity.ModeleIA
 import org.ldv.chatbot.parser.MarkdownToHtmlConverter
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
 
+data class GeminiApiRequest(
+    val contents: List<GeminiRequestContent>
+)
+
+data class GeminiRequestContent(
+    val role: String,
+    val parts: List<GeminiRequestPart>
+)
+
+data class GeminiRequestPart(
+    val text: String
+)
+
+data class GeminiApiResponse(
+    val candidates: List<GeminiCandidate>? = null
+)
+
+data class GeminiCandidate(
+    val content: GeminiResponseContent? = null
+)
+
+data class GeminiResponseContent(
+    val parts: List<GeminiResponsePart>? = null
+)
+
+data class GeminiResponsePart(
+    val text: String? = null
+)
 
 @Service
 class GeminiService(
     private val restClientBuilder: RestClient.Builder,
+
     @Value("\${gemini.api.key}")
     private val apiKey: String
+
 ) : IAService {
+
     override fun getFournisseur(): String = "Gemini"
-    override fun envoyerPrompt(prompt: String, modele: ModeleIA): String {
-        // Étape 1 : Création du message de l'utilisateur
-        val message = GeminiMessage(
-            role = "user",
-            content = prompt
+
+    override fun envoyerPrompt(
+        prompt: String,
+        modele: ModeleIA
+    ): String {
+
+        // 1. Préparer la requête Gemini
+        val request = GeminiApiRequest(
+            contents = listOf(
+                GeminiRequestContent(
+                    role = "user",
+                    parts = listOf(
+                        GeminiRequestPart(text = prompt)
+                    )
+                )
+            )
         )
-        // Étape 2 : Préparation de la requête pour Gemini
-        val request = GeminiChatRequest(
-            model = modele.nom,
-            messages = listOf(message)
-        )
-        // Étape 3 : Envoi de la requête HTTP POST à l'API
+
+        // 2. Construire le client HTTP
         val client = restClientBuilder.build()
+
+        // 3. Appeler l'API Gemini
         val response = client.post()
             .uri(modele.urlAPI)
-            .header("Authorization", "Bearer $apiKey")
+            .header("x-goog-api-key", apiKey)
             .contentType(MediaType.APPLICATION_JSON)
             .body(request)
             .retrieve()
-            .body(GeminiChatResponse::class.java)
+            .body(GeminiApiResponse::class.java)
 
-        // Étape 4 : Récupération du texte de la réponse
-        val choix = response?.choices?.firstOrNull()
-        val reponse = choix?.message?.content
-        if (reponse != null) {
-            // Etape 5 : MarkDown en HTML
-            val HTMLreponse = MarkdownToHtmlConverter.convert(reponse) // Markdown to HTML
-            return HTMLreponse
-        } else {
-            return "Aucune réponse reçue de Gemini."
+        // 4. Récupérer la réponse
+        val reponse = response?.candidates
+            ?.firstNotNullOfOrNull { candidate ->
+                candidate.content?.parts
+                    ?.firstNotNullOfOrNull { it.text }
+            }
+
+        if (reponse.isNullOrBlank()) {
+            throw IllegalStateException(
+                "Gemini n'a retourné aucun texte."
+            )
         }
+
+        // 5. Convertir Markdown en HTML
+        return MarkdownToHtmlConverter.convert(reponse)
     }
 }

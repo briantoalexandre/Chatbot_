@@ -223,4 +223,9 @@ class ChatController(
         )
         return "model/detail"
     }
+
+//    @GetMapping("/login")
+//    fun login(): String {
+//        return "auth/login"
+//    }
 }

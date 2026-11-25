@@ -42,7 +42,8 @@ class MistralService(
         val reponse = choix?.message?.content
         if (reponse != null) {
             // Etape 5 : MarkDown en HTML
-            val HTMLreponse = MarkdownToHtmlConverter.convert(reponse) // Markdown to HTML
+
+            val HTMLreponse = MarkdownToHtmlConverter.convert(listOf(reponse).random()) // Markdown to HTML
             return HTMLreponse
         } else {
             return "Aucune réponse reçue de Mistral."

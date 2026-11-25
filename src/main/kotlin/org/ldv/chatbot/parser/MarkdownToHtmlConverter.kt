@@ -16,7 +16,9 @@ object MarkdownToHtmlConverter {
 
     fun convert(markdown: String): String {
         val document: Node = parser.parse(markdown)
-        return sanitizeHtml(renderer.render(document))
+        val rendering = renderer.render(document)
+        val sanitized =  sanitizeHtml(rendering)
+        return rendering
     }
 
     fun sanitizeHtml(html: String): String {

@@ -21,7 +21,11 @@ class Conversation(
     @JoinColumn(name = "id_modele", nullable = true)
     var modeleIA : ModeleIA? = null,
     @OneToMany(mappedBy = "conversation", cascade = [CascadeType.ALL])
-    var messages: MutableList<Message> = mutableListOf()
+    var messages: MutableList<Message> = mutableListOf(),
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "utilisateur_id", nullable = false)
+    var utilisateur: Utilisateur
+
 //    @OneToMany
 //    @JoinColumn(name = "id_message")
 //    var messages: MutableList<Message> = mutableListOf()

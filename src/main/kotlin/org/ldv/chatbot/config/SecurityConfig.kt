@@ -12,40 +12,40 @@ class SecurityConfig {
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
     }
-//    @Bean
-//    fun securityFilterChain(
-//        http: HttpSecurity
-//    ): SecurityFilterChain {
-//        http
-//            .authorizeHttpRequests { auth ->
-//                auth
-//                    .requestMatchers(
-//                        "/css/**",
-//                        "/js/**",
-//                        "/images/**",
-//                        "/vendor/**"
-//                    ).permitAll()
-//                    .requestMatchers("/admin/**")
-//                    .hasRole("ADMIN")
-//                    .anyRequest()
-//                    .authenticated()
-//            }
-//            .formLogin { form ->
-//                form
-//                    .loginPage("/login")
-//                    .loginProcessingUrl("/login")
-//                    .usernameParameter("email")
-//                    .passwordParameter("password")
-//                    .defaultSuccessUrl("/", false)
-//                    .failureUrl("/login?error")
-//                    .permitAll()
-//            }
-//            .logout { logout ->
-//                logout
-//                    .logoutSuccessUrl("/login?logout")
-//                    .permitAll()
-//            }
-//
-//        return http.build()
-//    }
+    @Bean
+    fun securityFilterChain(
+        http: HttpSecurity
+    ): SecurityFilterChain {
+        http
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers(
+                        "/css/**",
+                        "/js/**",
+                        "/images/**",
+                        "/vendor/**"
+                    ).permitAll()
+                    .requestMatchers("/admin/**")
+                    .hasRole("ADMIN")
+                    .anyRequest()
+                    .authenticated()
+            }
+            .formLogin { form ->
+                form
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .defaultSuccessUrl("/", false)
+                    .failureUrl("/login?error")
+                    .permitAll()
+            }
+            .logout { logout ->
+                logout
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll()
+            }
+
+        return http.build()
+    }
 }

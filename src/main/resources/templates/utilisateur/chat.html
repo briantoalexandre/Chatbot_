@@ -5,6 +5,7 @@
     <div class="heading">
         <div>
             <span class="eyebrow">VOTRE ASSISTANT IA</span>
+            <div class="" th:if="${utilisateur != null}"><span th:text="${utilisateur != null ? utilisateur.prenom + ' ' + utilisateur.nom: 'Anonyme'}">Anonyme</span><br><small th:text="${utilisateur != null ? utilisateur.role.nom : 'Visiteur'}">Visiteur</small></div>
             <h1 th:text="${conversation != null ? conversation.titre : 'Bonjour !'}">Bonjour !</h1>
             <p>Posez vos questions, explorez vos idées et créez avec l’IA.</p>
         </div>

@@ -17,5 +17,12 @@
         </p>
         <p>
             <strong>Logo :</strong>
-            <span th:text="${modele.cheminLogo}"></span></p><a class="btn outline" th:href="@{/modeles}">Retour à la liste</a></div></section>
+            <span th:text="${modele.cheminLogo}"></span>
+        </p>
+        <a class="btn btn-warning"
+           th:href="@{{id}/modifier(id=${modele.id})}">
+            Modifier</a>
+        <a class="btn outline" th:href="@{/modeles}">Retour à la liste</a>
+    </div>
+</section>
 </html>

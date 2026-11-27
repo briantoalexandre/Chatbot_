@@ -205,41 +205,41 @@ class ChatController(
     @GetMapping("/services/cases")
     fun serviceCases(): String = "services/cases"
 
-    // Pages des modèles IA
-    @GetMapping("/modeles", "/modeles/")
-    fun models(model: Model): String {
-        model.addAttribute("modeles", modeleIADAO.findAll())
-        return "model/index"
-    }
+//    // Pages des modèles IA
+//    @GetMapping("/modeles", "/modeles/")
+//    fun models(model: Model): String {
+//        model.addAttribute("modeles", modeleIADAO.findAll())
+//        return "model/index"
+//    }
 
-    @GetMapping("/modeles/nouveau")
-    fun newModel(): String = "model/create"
+//    @GetMapping("/modeles/nouveau")
+//    fun newModel(): String = "model/create"
 
-    @GetMapping("/modeles/{id}/modifier")
-    fun editModel(
-        @PathVariable id: Long,
-        model: Model
-    ): String {
-        model.addAttribute(
-            "modele",
-            modeleIADAO.findById(id)
-                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        )
-        return "model/edit"
-    }
+//    @GetMapping("/modeles/{id}/modifier")
+//    fun editModel(
+//        @PathVariable id: Long,
+//        model: Model
+//    ): String {
+//        model.addAttribute(
+//            "modele",
+//            modeleIADAO.findById(id)
+//                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+//        )
+//        return "model/edit"
+//    }
 
-    @GetMapping("/modeles/{id}")
-    fun modelDetail(
-        @PathVariable id: Long,
-        model: Model
-    ): String {
-        model.addAttribute(
-            "modele",
-            modeleIADAO.findById(id)
-                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-        )
-        return "model/detail"
-    }
+//    @GetMapping("/modeles/{id}")
+//    fun modelDetail(
+//        @PathVariable id: Long,
+//        model: Model
+//    ): String {
+//        model.addAttribute(
+//            "modele",
+//            modeleIADAO.findById(id)
+//                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+//        )
+//        return "model/detail"
+//    }
 
     fun getUtilisateurConnecte( authentication: Authentication):
             Utilisateur {

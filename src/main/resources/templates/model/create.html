@@ -1,4 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: base(~{::content}, 'Créer un modèle', 'models')}">
-<section th:fragment="content"><div class="heading"><div><span class="eyebrow">CATALOGUE IA</span><h1>Créer un modèle</h1><p>La gestion des modèles peut être ajoutée à votre espace administrateur.</p></div></div><div class="card"><p>Les modèles disponibles sont actuellement configurés dans la base de données. Cette version de l’interface ne propose pas encore de formulaire de création.</p><a class="btn outline" th:href="@{/modeles}">Retour à la liste</a></div></section>
+<section th:fragment="content">
+    <div class="heading">
+        <div>
+            <span class="eyebrow">CATALOGUE IA</span>
+            <h1>Créer un modèle</h1>
+            <p>La gestion des modèles peut être ajoutée à votre espace administrateur.</p>
+        </div>
+    </div>
+    <div class="card">
+        <!--<p>Les modèles disponibles sont actuellement configurés dans la base de données. Cette version de l’interface ne propose pas encore de formulaire de création.</p>-->
+        <!-- A MODIFIER-->
+
+        <div class="container mt-4">
+            <h1>Ajouter un modèle IA</h1>
+            <form method="post"
+                  th:action="@{/modeles}">
+                <div class="fields">
+                    <label for="nom" class="form-label">Nom du modèle</label>
+                    <input type="text" id="nom" name="nom" class="form-control"
+                           required>
+                </div>
+                <div class="fields">
+                    <label for="fournisseurIAId" class="form-label">
+                        Fournisseur IA</label>
+                    <select id="fournisseurIAId" name="fournisseurIAId"
+                            class="form-select" required>
+                        <option value="">Sélectionnez un fournisseur</option>
+                        <option th:each="fournisseur : ${fournisseursIA}"
+                                th:value="${fournisseur.id}" th:text="${fournisseur.nom}">
+                        </option>
+                    </select>
+                </div>
+                <div class="fields">
+                    <label for="urlAPI" class="form-label">URL de l'API</label>
+                    <input type="url" id="urlAPI" name="urlAPI" class="form-control"
+                           required>
+                </div>
+                <div class="fields">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="description" rows="4"
+                              class="form-control">
+
+                    </textarea>
+                </div>
+                <div class="fields">
+                    <label for="cheminLogo" class="form-label">Chemin du logo</label>
+                    <input type="text" id="cheminLogo" name="cheminLogo"
+                           class="form-control">
+                </div>
+                <button type="submit" class="btn primary">Créer</button>
+                <a th:href="@{/modeles}" class="btn primary">
+                    Annuler</a>
+            </form>
+        </div>
+
+        <!-- A MODIFIER -->
+        <!-- <a class="btn outline" th:href="@{/modeles}">Retour à la liste</a>-->
+    </div>
+</section>
 </html>
